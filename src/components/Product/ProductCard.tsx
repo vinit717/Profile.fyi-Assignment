@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { Product } from '@/service/api';
@@ -10,9 +10,12 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useDispatch();
+  const [isAdding, setIsAdding] = useState(false);
 
   const handleAddToCart = () => {
+    setIsAdding(true);
     dispatch(addToCart(product));
+    setTimeout(() => setIsAdding(false), 500);
   };
 
   return (
@@ -30,9 +33,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <span className="text-xl font-bold">${product.price.toFixed(2)}</span>
         <button 
           onClick={handleAddToCart}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-all ${isAdding ? 'scale-110' : ''}`}
         >
-          Add to Cart
+          {isAdding ? 'Added!' : 'Add to Cart'}
         </button>
       </div>
     </div>
