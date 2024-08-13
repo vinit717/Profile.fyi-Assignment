@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { FC, ReactNode } from 'react';
 
-// import Navbar from '@/components/Navbar';
+import Navbar from '@/components/Navbar';
 
 type LayoutProps = {
     title: string;
@@ -26,8 +26,11 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
                 />
                 <meta property="og:type" content="website" />
             </Head>
-            {/* <Navbar /> */}
+            <Navbar />
             <main>{children}</main>
+            <footer className="bg-gray-200 p-4 text-center">
+        <p>&copy; 2024 E-Commerce Store. All rights reserved.</p>
+      </footer>
         </>
     );
 };
