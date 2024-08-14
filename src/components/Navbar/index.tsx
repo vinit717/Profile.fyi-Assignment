@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
             />
         </Link>
       </div>
-      <div className="flex-grow mx-4">
+      <div className="mx-4 w-2/4	">
         <Search />
       </div>
       <ul className="flex space-x-6 items-center">
