@@ -26,11 +26,13 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
                 />
                 <meta property="og:type" content="website" />
             </Head>
-            <Navbar />
-            <main>{children}</main>
-            <footer className="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 E-Commerce Store. All rights reserved.</p>
-      </footer>
+            <div className="flex flex-col min-h-screen">
+                <Navbar />
+                <main className="flex-grow">{children}</main>
+                <footer className="bg-gray-200 p-4 text-center">
+                    <p>&copy; 2024 E-Commerce Store. All rights reserved.</p>
+                </footer>
+            </div>
         </>
     );
 };
