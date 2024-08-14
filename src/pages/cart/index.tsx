@@ -1,4 +1,3 @@
-// pages/cart.tsx
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Layout from '@/components/Layout';

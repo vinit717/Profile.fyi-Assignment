@@ -13,9 +13,12 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://fakestoreapi.com' }),
   endpoints: (builder) => ({
     getProducts: builder.query<Product[], void>({
-      query: () => 'products?limit=10',
+      query: () => 'products',
+    }),
+    getCategories: builder.query<string[], void>({
+      query: () => 'products/categories',
     }),
   }),
 });
 
-export const { useGetProductsQuery } = api;
+export const { useGetProductsQuery, useGetCategoriesQuery } = api;
