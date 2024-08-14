@@ -3,6 +3,7 @@ import Layout from '@/components/Layout';
 import { useGetProductsQuery, useGetCategoriesQuery, Product } from '@/service/api';
 import ProductCard from '@/components/Product/ProductCard';
 import CategoryFilter from '@/components/Product/CategoryFilter';
+import Pagination from '@/components/Pagination';
 
 const App: React.FC = () => {
   const { data: products, error, isLoading } = useGetProductsQuery();
@@ -15,35 +16,23 @@ const App: React.FC = () => {
   const productsPerPage = 8;
 
   useEffect(() => {
-    let filtered = products ? [...products] : []; 
-  
-    if (selectedCategory) {
-      filtered = filtered.filter(product => product.category === selectedCategory);
+    if (products) {
+      let filtered = [...products];
+      if (selectedCategory) {
+        filtered = filtered.filter(product => product.category === selectedCategory);
+      }
+      filtered.sort((a, b) => sortOrder === 'asc' ? a.price - b.price : b.price - a.price);
+      setFilteredProducts(filtered);
+      setCurrentPage(1);
     }
-  
-    if (sortOrder === 'asc') {
-      filtered = filtered.sort((a, b) => a.price - b.price);
-    } else {
-      filtered = filtered.sort((a, b) => b.price - a.price);
-    }
-  
-    setFilteredProducts(filtered);
   }, [products, selectedCategory, sortOrder]);
-  
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
-  };
-
-
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+  const handleCategorySelect = (category: string) => setSelectedCategory(category);
+  const handlePageChange = (newPage: number) => setCurrentPage(newPage);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
@@ -71,22 +60,11 @@ const App: React.FC = () => {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-        <div className="flex justify-between mt-8">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-4 py-2 bg-gray-200 rounded"
-          >
-            Previous
-          </button>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={indexOfLastProduct >= filteredProducts.length}
-            className="px-4 py-2 bg-gray-200 rounded"
-          >
-            Next
-          </button>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filteredProducts.length / productsPerPage)}
+          onPageChange={handlePageChange}
+        />
       </div>
     </Layout>
   );

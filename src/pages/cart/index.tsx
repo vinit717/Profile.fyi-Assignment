@@ -4,6 +4,7 @@ import Layout from '@/components/Layout';
 import Image from 'next/image';
 import { RootState } from '@/store';
 import { removeFromCart, updateQuantity } from '@/store/cartSlice';
+import CartItem from '@/components/Cart/CartItem';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
@@ -43,34 +44,12 @@ const Cart: React.FC = () => {
         ) : (
           <>
             {cartItems.map((item) => (
-              <div key={item.id} className="flex items-center border-b py-4">
-                <Image src={item.image} alt={item.title} width={80} height={80} className="object-contain mr-4" priority />
-                <div className="flex-grow">
-                  <h2 className="text-lg font-semibold">{item.title}</h2>
-                  <p className="text-gray-600">${item.price.toFixed(2)}</p>
-                  <div className="flex items-center mt-2">
-                    <button
-                      onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                      className="bg-gray-200 px-2 py-1 rounded-l"
-                    >
-                      -
-                    </button>
-                    <span className="bg-gray-100 px-4 py-1">{item.quantity}</span>
-                    <button
-                      onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                      className="bg-gray-200 px-2 py-1 rounded-r"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                <button
-                  onClick={() => handleRemoveItem(item.id)}
-                  className="text-red-500 ml-4"
-                >
-                  Remove
-                </button>
-              </div>
+              <CartItem 
+              key={item.id}
+              item={item}
+              onQuantityChange={handleQuantityChange}
+              onRemove={handleRemoveItem}
+              />
             ))}
             <div className="mt-8">
               <h2 className="text-2xl font-semibold mb-4">Cart Summary</h2>
