@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Layout from '@/components/Layout';
-import Image from 'next/image';
 import { RootState } from '@/store';
 import { removeFromCart, updateQuantity } from '@/store/cartSlice';
 import CartItem from '@/components/Cart/CartItem';
@@ -42,17 +41,19 @@ const Cart: React.FC = () => {
         {cartItems.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
-          <>
-            {cartItems.map((item) => (
-              <CartItem 
-              key={item.id}
-              item={item}
-              onQuantityChange={handleQuantityChange}
-              onRemove={handleRemoveItem}
-              />
-            ))}
-            <div className="mt-8">
-              <h2 className="text-2xl font-semibold mb-4">Cart Summary</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            <div className='lg:col-span-3 border rounded-lg p-4 shadow-md'>
+              {cartItems.map((item) => (
+                <CartItem 
+                  key={item.id}
+                  item={item}
+                  onQuantityChange={handleQuantityChange}
+                  onRemove={handleRemoveItem}
+                />
+              ))}
+            </div>
+            <div className="lg:col-span-2 border rounded-lg p-4 shadow-md h-96">
+              <h2 className="text-2xl font-semibold my-4 ">Cart Summary</h2>
               <div className="flex justify-between mb-2">
                 <span>Subtotal:</span>
                 <span>${subtotal.toFixed(2)}</span>
@@ -65,17 +66,17 @@ const Cart: React.FC = () => {
                 <span className="font-bold">Total:</span>
                 <span className="font-bold">${total.toFixed(2)}</span>
               </div>
-              <div className="mb-4">
+              <div className="mb-4 flex flex-col	gap-4">
                 <input
                   type="text"
                   value={discountCode}
                   onChange={(e) => setDiscountCode(e.target.value)}
                   placeholder="Enter discount code"
-                  className="border p-2 mr-2"
+                  className="border p-2 w-full"
                 />
                 <button
                   onClick={applyDiscount}
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  className="bg-blue-500 text-white px-4 py-2 rounded mt-2 w-full"
                 >
                   Apply Discount
                 </button>
@@ -87,7 +88,7 @@ const Cart: React.FC = () => {
                 Proceed to Checkout
               </button>
             </div>
-          </>
+          </div>
         )}
       </div>
     </Layout>

@@ -37,14 +37,15 @@ interface CartItem {
           >
             +
           </button>
-        </div>
-      </div>
-      <button
+          <button
         onClick={() => onRemove(item.id)}
-        className="text-red-500 ml-4"
+        className="text-red-500 ml-4 font-medium"
       >
         Remove
       </button>
+        </div>
+      </div>
+
     </div>
   );
   
