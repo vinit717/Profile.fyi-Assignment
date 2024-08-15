@@ -4,6 +4,8 @@ import { useGetProductsQuery, useGetCategoriesQuery, Product } from '@/service/a
 import ProductCard from '@/components/Product/ProductCard';
 import CategoryFilter from '@/components/Product/CategoryFilter';
 import Pagination from '@/components/Pagination';
+import Shimmer from '@/components/ShimmerEffect/Shimmer';
+
 
 const App: React.FC = () => {
   const { data: products, error, isLoading } = useGetProductsQuery();
@@ -34,7 +36,7 @@ const App: React.FC = () => {
   const handleCategorySelect = (category: string) => setSelectedCategory(category);
   const handlePageChange = (newPage: number) => setCurrentPage(newPage);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Shimmer />;
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
   return (
