@@ -3,20 +3,32 @@ import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { Product } from '@/service/api';
 import { addToCart } from '@/store/cartSlice';
+import ProductShimmer from '@/components/ShimmerEffect/ProductShimmer';
 
 interface ProductCardProps {
-  product: Product;
+  product?: Product;  // product can be undefined when loading
+  isLoading: boolean;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, isLoading }) => {
   const dispatch = useDispatch();
   const [isAdding, setIsAdding] = useState(false);
 
   const handleAddToCart = () => {
     setIsAdding(true);
-    dispatch(addToCart(product));
-    setTimeout(() => setIsAdding(false), 500);
+    if (product) {
+      dispatch(addToCart(product));
+      setTimeout(() => setIsAdding(false), 500);
+    }
   };
+
+  if (isLoading) {
+    return <ProductShimmer />;
+  }
+
+  if (!product) {
+    return null;
+  }
 
   return (
     <div className="border rounded-lg p-4 shadow-md">
