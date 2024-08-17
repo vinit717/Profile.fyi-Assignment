@@ -6,7 +6,7 @@ import { addToCart } from '@/store/cartSlice';
 import ProductShimmer from '@/components/ShimmerEffect/ProductShimmer';
 
 interface ProductCardProps {
-  product?: Product;  // product can be undefined when loading
+  product?: Product; 
   isLoading: boolean;
 }
 
