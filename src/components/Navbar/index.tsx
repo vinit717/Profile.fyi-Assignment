@@ -1,10 +1,24 @@
-import React from 'react';
+// components/Navbar.tsx
+import React, { useState } from 'react';
 import Link from 'next/link';
 import CartIcon from '../Cart/CartIcon';
 import Image from 'next/image';
 import Search from '../Search';
+import LoginModal from '../Auth/LoginModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import { clearUser } from '@/store/authSlice';
+
 
 const Navbar: React.FC = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const handleLogout = () => {
+    dispatch(clearUser());
+  };
+
   return (
     <nav className="flex flex-col mobile:flex-row justify-between items-center p-5 space-y-4 mobile:space-y-0">
       <div className="flex justify-between items-center w-full mobile:w-auto">
@@ -19,7 +33,7 @@ const Navbar: React.FC = () => {
         </Link>
         <ul className="flex space-x-6 items-center mobile:hidden">
           <li>
-            <Link href="/login">Login</Link>
+            <button onClick={() => setIsLoginModalOpen(true)}>Login</button>
           </li>
           <li>
             <Link href="/cart">
@@ -32,15 +46,25 @@ const Navbar: React.FC = () => {
         <Search />
       </div>
       <ul className="hidden mobile:flex space-x-6 items-center">
-        <li>
-          <Link href="/login">Login</Link>
-        </li>
+        {user ? (
+          <>
+            <li>Welcome, {user.firstname}</li>
+            <li>
+              <button onClick={handleLogout}>Logout</button>
+            </li>
+          </>
+        ) : (
+          <li>
+            <button onClick={() => setIsLoginModalOpen(true)}>Login</button>
+          </li>
+        )}
         <li>
           <Link href="/cart">
             <CartIcon />
           </Link>
         </li>
       </ul>
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </nav>
   );
 };
