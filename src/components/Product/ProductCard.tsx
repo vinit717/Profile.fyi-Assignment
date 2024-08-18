@@ -38,6 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isLoading }) => {
         width={200}
         height={200}
         className="w-full h-48 object-contain mb-4"
+        priority 
       />
       <h2 className="text-lg font-semibold mb-2 truncate">{product.title}</h2>
       <p className="text-gray-600 mb-4 truncate">{product.description}</p>

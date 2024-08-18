@@ -3,7 +3,7 @@ import { RootState } from '@/store';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export interface Product {
-  id: number;
+  _id: string;
   title: string;
   price: number;
   description: string;

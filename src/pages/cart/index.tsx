@@ -27,7 +27,7 @@ const Cart: React.FC = () => {
     }
   }, [cart, discount]);
 
-  const handleQuantityChange = async (id: number, newQuantity: number) => {
+  const handleQuantityChange = async (id: string, newQuantity: number) => {
     if (newQuantity > 0) {
       try {
         await updateCartItemQuantity({ productId: id, quantity: newQuantity }).unwrap();
@@ -37,7 +37,7 @@ const Cart: React.FC = () => {
     }
   };
 
-  const handleRemoveItem = async (id: number) => {
+  const handleRemoveItem = async (id: string) => {
     try {
       await removeFromCartMutation(id).unwrap();
     } catch (err) {
@@ -68,7 +68,7 @@ const Cart: React.FC = () => {
           <div className='lg:col-span-3 border rounded-lg p-4 shadow-md'>
             {cart.items.map((item: CartItem) => (
               <CartItem 
-                key={item.product.id}
+                key={item.product._id}
                 item={item}
                 onQuantityChange={handleQuantityChange}
                 onRemove={handleRemoveItem}

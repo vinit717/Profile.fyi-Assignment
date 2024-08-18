@@ -47,7 +47,7 @@ const Search: React.FC = () => {
       {searchResults.length > 0 && (
         <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto no-scrollbar">
           {searchResults.map((product) => (
-            <Link href={`/product/${product.id}`} key={product.id}>
+            <Link href={`/product/${product._id}`} key={product._id}>
               <div className="flex items-center p-2 hover:bg-gray-100 cursor-pointer">
                 <Image
                   src={product.image}
@@ -55,6 +55,7 @@ const Search: React.FC = () => {
                   width={40}
                   height={40}
                   className="object-contain mr-2"
+                  priority 
                 />
                 <div>
                   <p className="font-semibold truncate">{product.title}</p>
