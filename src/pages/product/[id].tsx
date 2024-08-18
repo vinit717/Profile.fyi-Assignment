@@ -14,6 +14,7 @@ const ProductPage: React.FC = () => {
   const { data: products, isLoading, error } = useGetProductsQuery();
   const dispatch = useDispatch();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [buttonText, setButtonText] = useState('Add to Cart');
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
   useEffect(() => {
@@ -30,6 +31,11 @@ const ProductPage: React.FC = () => {
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
+    setButtonText('Added');
+
+    setTimeout(() => {
+      setButtonText('Add to Cart');
+    }, 1000);
   };
 
   const handleCheckout = () => {
@@ -49,21 +55,21 @@ const ProductPage: React.FC = () => {
     <Layout title={product.title}>
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/2 flex justify-center items-center">
-            <div className="w-full max-w-md relative">
+          <div className="md:w-2/5	flex justify-center items-center">
+            <div className="w-full max-w-md relative ">
               <Image
                 src={product.image}
                 alt={product.title}
                 layout="responsive"
-                width={500}
-                height={500}
+                width={250}
+                height={250}
                 objectFit="contain"
-                className="rounded-lg"
-                priority={false}
+                className="rounded-lg w-4/5	"
+                priority={true}
               />
             </div>
           </div>
-          <div className="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+          <div className="md:w-1/2 md:pl-8 mt-4 md:mt-0 flex flex-col justify-center	">
             <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
             <p className="text-xl font-semibold mb-4">${product.price.toFixed(2)}</p>
             <p className="mb-4">{product.description}</p>
@@ -79,11 +85,15 @@ const ProductPage: React.FC = () => {
             <div className="mb-4">
               <span className="font-semibold">Estimated Delivery:</span> {deliveryDate}
             </div>
+            <div>
             <button 
               onClick={handleAddToCart}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-4"
+              className={`${
+                buttonText === 'Added' ? 'bg-gray-400' : 'bg-blue-500'
+              } text-white px-4 py-2 rounded hover:bg-blue-600 mr-4`}
+              disabled={buttonText === 'Added'}
             >
-              Add to Cart
+              {buttonText}
             </button>
             <button 
               onClick={handleCheckout}
@@ -91,6 +101,7 @@ const ProductPage: React.FC = () => {
             >
               Buy Now
             </button>
+            </div>
           </div>
         </div>
       </div>
